@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.core.paths import data_dir
 
 from src.ai_processing.gemini_client import (
     client,
@@ -60,9 +61,7 @@ Hasilkan dalam format Markdown.
         contents=prompt,
     )
 
-    output_dir = Path(
-        "data/ebook_content"
-    )
+    output_dir = data_dir() / "ebook_content"
 
     output_dir.mkdir(
         parents=True,

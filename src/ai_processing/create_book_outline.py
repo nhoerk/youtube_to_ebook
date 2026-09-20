@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.core.paths import data_dir
 import time
 
 from src.ai_processing.gemini_client import (
@@ -8,9 +9,7 @@ from src.ai_processing.gemini_client import (
 
 
 def create_book_outline():
-    summary_dir = Path(
-        "data/chapter_summary"
-    )
+    summary_dir = data_dir() / "chapter_summary"
 
     all_summary = []
 
@@ -78,9 +77,7 @@ Format markdown.
             "Gagal membuat outline setelah beberapa percobaan."
         )
 
-    output_dir = Path(
-        "data/book_outline"
-    )
+    output_dir = data_dir() / "book_outline"
 
     output_dir.mkdir(
         parents=True,

@@ -1,7 +1,11 @@
 certifi==2026.7.22
 charset-normalizer==3.5.1
 defusedxml==0.7.1
+google-genai==1.23.0
 idna==3.20
+python-dotenv==1.1.1
+pytest==8.4.2
+reportlab==4.4.0
 requests==2.34.2
 urllib3==2.8.0
 youtube-transcript-api==1.2.4

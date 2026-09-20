@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.core.paths import data_dir
 
 
 def chunk_transcript(
@@ -20,9 +21,7 @@ def chunk_transcript(
         )
     ]
 
-    output_dir = Path(
-        "data/transcript_chunks"
-    )
+    output_dir = data_dir() / "transcript_chunks"
 
     output_dir.mkdir(
         parents=True,

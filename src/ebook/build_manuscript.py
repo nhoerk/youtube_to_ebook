@@ -1,15 +1,12 @@
 from pathlib import Path
+from src.core.paths import data_dir, output_dir as get_output_dir
 
 
 def build_manuscript():
 
-    ebook_dir = Path(
-        "data/ebook_content"
-    )
+    ebook_dir = data_dir() / "ebook_content"
 
-    output_dir = Path(
-        "output"
-    )
+    output_dir = get_output_dir()
 
     output_dir.mkdir(
         parents=True,

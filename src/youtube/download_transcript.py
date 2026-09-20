@@ -2,6 +2,7 @@ from pathlib import Path
 
 from youtube_transcript_api import YouTubeTranscriptApi
 
+from src.core.paths import data_dir
 from src.youtube.extract_video_id import extract_video_id
 
 
@@ -21,7 +22,7 @@ def download_transcript(youtube_url: str) -> Path:
         for snippet in transcript
     )
 
-    output_dir = Path("data/transcript_raw")
+    output_dir = data_dir() / "transcript_raw"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     output_file = output_dir / f"{video_id}.txt"

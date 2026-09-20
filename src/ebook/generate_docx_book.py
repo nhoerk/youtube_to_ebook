@@ -1,12 +1,11 @@
 from pathlib import Path
+from src.core.paths import output_dir
 from docx import Document
 
 
 def generate_docx():
 
-    manuscript = Path(
-        "output/manuscript.md"
-    )
+    manuscript = output_dir() / "manuscript.md"
 
     text = manuscript.read_text(
         encoding="utf-8"
@@ -36,9 +35,7 @@ def generate_docx():
         else:
             doc.add_paragraph(line)
 
-    output_file = (
-        "output/Membentengi_Akidah_Memurnikan_Tauhid.docx"
-    )
+    output_file = output_dir() / "Membentengi_Akidah_Memurnikan_Tauhid.docx"
 
     doc.save(output_file)
 

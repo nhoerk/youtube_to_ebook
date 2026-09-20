@@ -3,13 +3,12 @@ from pathlib import Path
 from src.ai_processing.gemini_utils import (
     ask_gemini,
 )
+from src.core.paths import data_dir
 
 
 def create_preface():
 
-    outline_file = Path(
-        "data/book_outline/book_outline.md"
-    )
+    outline_file = data_dir() / "book_outline" / "book_outline.md"
 
     outline = outline_file.read_text(
         encoding="utf-8"
@@ -45,9 +44,7 @@ Outline:
         prompt
     )
 
-    output_dir = Path(
-        "data/book_assets"
-    )
+    output_dir = data_dir() / "book_assets"
 
     output_dir.mkdir(
         parents=True,

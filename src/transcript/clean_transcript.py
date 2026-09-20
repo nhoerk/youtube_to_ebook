@@ -1,5 +1,6 @@
 import re
 from pathlib import Path
+from src.core.paths import data_dir
 
 
 def clean_transcript(input_file: Path) -> Path:
@@ -26,9 +27,7 @@ def clean_transcript(input_file: Path) -> Path:
     text = re.sub(r"\n+", "\n", text)
     text = re.sub(r"\s+", " ", text)
 
-    output_dir = Path(
-        "data/transcript_clean"
-    )
+    output_dir = data_dir() / "transcript_clean"
 
     output_dir.mkdir(
         parents=True,

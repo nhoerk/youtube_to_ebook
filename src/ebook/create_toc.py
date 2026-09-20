@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.core.paths import data_dir
 
 
 def create_toc():
@@ -19,9 +20,7 @@ Bab 4 - Potret Ironi Kesyirikan Modern
 Penutup
 """
 
-    output_dir = Path(
-        "data/book_assets"
-    )
+    output_dir = data_dir() / "book_assets"
 
     output_dir.mkdir(
         parents=True,

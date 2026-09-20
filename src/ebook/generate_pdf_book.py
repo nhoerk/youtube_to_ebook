@@ -9,21 +9,18 @@ from reportlab.platypus import (
 from reportlab.lib.styles import (
     getSampleStyleSheet,
 )
+from src.core.paths import output_dir
 
 
 def generate_pdf():
 
-    manuscript = Path(
-        "output/manuscript.md"
-    )
+    manuscript = output_dir() / "manuscript.md"
 
     text = manuscript.read_text(
         encoding="utf-8"
     )
 
-    output_file = (
-        "output/Membentengi_Akidah_Memurnikan_Tauhid.pdf"
-    )
+    output_file = output_dir() / "Membentengi_Akidah_Memurnikan_Tauhid.pdf"
 
     doc = SimpleDocTemplate(
         output_file,
