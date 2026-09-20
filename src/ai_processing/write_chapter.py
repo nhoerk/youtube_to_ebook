@@ -1,10 +1,6 @@
 from pathlib import Path
 from src.core.paths import data_dir
-
-from src.ai_processing.gemini_client import (
-    client,
-    MODEL_NAME,
-)
+from src.ai_processing.gemini_utils import generate_with_fallback
 
 
 def write_chapter(
@@ -56,10 +52,7 @@ Hasilkan dalam format Markdown.
         f"Menulis Bab {chapter_number}..."
     )
 
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=prompt,
-    )
+    response = generate_with_fallback(prompt)
 
     output_dir = data_dir() / "ebook_content"
 

@@ -6,7 +6,7 @@ from src.core.paths import data_dir
 from src.youtube.extract_video_id import extract_video_id
 
 
-def download_transcript(youtube_url: str) -> Path:
+def download_transcript(youtube_url: str, languages=("id", "en")) -> Path:
 
     video_id = extract_video_id(youtube_url)
 
@@ -14,7 +14,7 @@ def download_transcript(youtube_url: str) -> Path:
 
     transcript = ytt_api.fetch(
         video_id,
-        languages=["id", "en"]
+        languages=list(languages)
     )
 
     text = "\n".join(

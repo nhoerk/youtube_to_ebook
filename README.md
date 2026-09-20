@@ -29,13 +29,28 @@ YouTube → Transcript → Summary → Chapter → Ebook
    ```bash
    python main.py
    ```
+   Atau gunakan CLI:
+   ```bash
+   python main.py --url "https://www.youtube.com/watch?v=VIDEO_ID"
+   python main.py --url "..." --config config.json
+   python main.py --url "..." --status
+   python main.py --url "..." --restart
+   ```
+
+   Salin `config.example.json` menjadi `config.json` untuk mengatur judul,
+   penulis, bahasa transcript, ukuran chunk, dan model Gemini.
 
 ## Environment variables
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-2.5-flash
+GEMINI_FALLBACK_MODELS=gemini-2.5-pro,gemini-2.5-flash-lite
 ```
+
+Jika model utama terkena quota atau rate limit, pipeline otomatis mencoba model
+di `GEMINI_FALLBACK_MODELS` secara berurutan. Model fallback harus tersedia pada
+akun/API key yang digunakan.
 
 ## Catatan
 
@@ -46,4 +61,9 @@ GEMINI_MODEL=gemini-2.5-flash
 - Setiap video memakai workspace terpisah di `data/<video_id>/` dan output terpisah
   di `output/<video_id>/`, sehingga URL baru menghasilkan ebook baru tanpa menimpa
   hasil URL lain.
+- Log pipeline disimpan di `logs/<video_id>.log`. Perubahan konfigurasi akan
+  menginvalidasi tahap lama agar hasil tidak tercampur dengan konfigurasi baru.
+- Outline disimpan sebagai `data/<video_id>/book_outline/book_outline.json`.
+  Jumlah, judul, dan ringkasan chapter dibuat dari transcript video, lalu
+  digunakan oleh generator chapter dan daftar isi.
 - Untuk penggunaan yang lebih umum, perlu dibuat konfigurasi buku dan CLI argument agar judul, bab, dan output tidak tertanam di kode.

@@ -10,6 +10,17 @@ from reportlab.lib.styles import (
     getSampleStyleSheet,
 )
 from src.core.paths import output_dir
+import os
+import re
+
+
+def _output_name(extension):
+    title = os.getenv(
+        "YOUTUBE_TO_EBOOK_BOOK_TITLE",
+        "Membentengi Akidah, Memurnikan Tauhid",
+    )
+    slug = re.sub(r"[^A-Za-z0-9]+", "_", title).strip("_")
+    return f"{slug}.{extension}"
 
 
 def generate_pdf():
@@ -20,7 +31,7 @@ def generate_pdf():
         encoding="utf-8"
     )
 
-    output_file = output_dir() / "Membentengi_Akidah_Memurnikan_Tauhid.pdf"
+    output_file = output_dir() / _output_name("pdf")
 
     doc = SimpleDocTemplate(
         output_file,

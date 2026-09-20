@@ -1,5 +1,6 @@
 from pathlib import Path
 from src.core.paths import data_dir, output_dir as get_output_dir
+import os
 
 
 def build_manuscript():
@@ -15,9 +16,11 @@ def build_manuscript():
 
     manuscript = []
 
-    manuscript.append(
-        "# MEMBENTENGI AKIDAH, MEMURNIKAN TAUHID\n"
+    title = os.getenv(
+        "YOUTUBE_TO_EBOOK_BOOK_TITLE",
+        "Membentengi Akidah, Memurnikan Tauhid",
     )
+    manuscript.append(f"# {title}\n")
 
     for file in sorted(
         ebook_dir.glob("bab_*.md")

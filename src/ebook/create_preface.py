@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from src.ai_processing.gemini_utils import (
@@ -8,10 +9,12 @@ from src.core.paths import data_dir
 
 def create_preface():
 
-    outline_file = data_dir() / "book_outline" / "book_outline.md"
+    outline_file = data_dir() / "book_outline" / "book_outline.json"
 
-    outline = outline_file.read_text(
-        encoding="utf-8"
+    outline = json.dumps(
+        json.loads(outline_file.read_text(encoding="utf-8")),
+        ensure_ascii=False,
+        indent=2,
     )
 
     prompt = f"""

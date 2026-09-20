@@ -8,3 +8,7 @@ def data_dir() -> Path:
 
 def output_dir() -> Path:
     return Path(os.getenv("YOUTUBE_TO_EBOOK_OUTPUT_DIR", "output"))
+
+
+def log_dir() -> Path:
+    return Path(os.getenv("YOUTUBE_TO_EBOOK_LOG_DIR", "logs"))

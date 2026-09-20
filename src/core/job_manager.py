@@ -116,3 +116,21 @@ def fail_stage(job, stage, error):
     }
     job["status"] = "failed"
     save_job(job)
+
+
+def reset_job(video_id):
+    file = JOB_DIR / f"{video_id}.json"
+    if file.exists():
+        file.unlink()
+
+
+def invalidate_stages(job, from_stage=None):
+    start = from_stage is None
+    for stage in STAGES:
+        if stage == from_stage:
+            start = True
+        if start:
+            job["stages"].pop(stage, None)
+            job.pop(stage, None)
+    job["status"] = "pending"
+    save_job(job)

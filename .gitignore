@@ -7,8 +7,10 @@ __pycache__/
 *.pyc
 
 output/
-data/transcript_raw/
-data/transcript_clean/
+logs/
+config.json
+data/jobs/
+data/*/
 
 .vscode/
 .idea/

@@ -1,11 +1,7 @@
+import json
 from pathlib import Path
 from src.core.paths import data_dir
-import time
-
-from src.ai_processing.gemini_client import (
-    client,
-    MODEL_NAME,
-)
+from src.ai_processing.gemini_utils import generate_with_fallback
 
 
 def create_book_outline():
@@ -32,15 +28,22 @@ Anda adalah editor buku profesional.
 Berikut adalah kumpulan ringkasan dari beberapa bagian
 kajian YouTube.
 
-Buat:
+Buat output JSON valid saja dengan struktur:
+{
+  "book_title": "judul buku",
+  "purpose": "tujuan buku",
+  "chapters": [
+    {
+      "number": 1,
+      "title": "judul bab",
+      "summary": "ringkasan bab"
+    }
+  ]
+}
 
-1. Judul buku
-2. Tujuan buku
-3. Daftar isi
-4. Struktur bab yang logis
-5. Ringkasan setiap bab
-
-Format markdown.
+Tentukan jumlah bab dan tema berdasarkan isi transcript. Jangan gunakan tema
+atau jumlah bab tetap. Nomor bab harus berurutan mulai dari 1. Jangan menulis
+markdown fence atau teks lain di luar JSON.
 
 {combined}
 """
@@ -49,33 +52,7 @@ Format markdown.
         "Membuat outline..."
     )
 
-    response = None
-
-    for attempt in range(5):
-        try:
-            response = client.models.generate_content(
-                model=MODEL_NAME,
-                contents=prompt,
-            )
-            break
-        except Exception as e:
-            print(
-                f"Percobaan {attempt+1} gagal:"
-            )
-            print(e)
-
-            if attempt < 4:
-                print(
-                    "Menunggu 30 detik..."
-                )
-                time.sleep(30)
-            else:
-                raise
-
-    if response is None:
-        raise RuntimeError(
-            "Gagal membuat outline setelah beberapa percobaan."
-        )
+    response = generate_with_fallback(prompt)
 
     output_dir = data_dir() / "book_outline"
 
@@ -84,13 +61,31 @@ Format markdown.
         exist_ok=True,
     )
 
-    output_file = (
-        output_dir /
-        "book_outline.md"
-    )
+    text = response.text.strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+
+    try:
+        outline = json.loads(text)
+    except json.JSONDecodeError as error:
+        raise ValueError("Outline AI bukan JSON yang valid.") from error
+
+    chapters = outline.get("chapters")
+    if not isinstance(chapters, list) or not chapters:
+        raise ValueError("Outline AI tidak memiliki daftar chapter.")
+
+    for expected_number, chapter in enumerate(chapters, start=1):
+        if (
+            chapter.get("number") != expected_number
+            or not chapter.get("title")
+            or not chapter.get("summary")
+        ):
+            raise ValueError("Format chapter pada outline AI tidak valid.")
+
+    output_file = output_dir / "book_outline.json"
 
     output_file.write_text(
-        response.text,
+        json.dumps(outline, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
 

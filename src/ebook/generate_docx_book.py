@@ -1,6 +1,17 @@
 from pathlib import Path
 from src.core.paths import output_dir
 from docx import Document
+import os
+import re
+
+
+def _output_name(extension):
+    title = os.getenv(
+        "YOUTUBE_TO_EBOOK_BOOK_TITLE",
+        "Membentengi Akidah, Memurnikan Tauhid",
+    )
+    slug = re.sub(r"[^A-Za-z0-9]+", "_", title).strip("_")
+    return f"{slug}.{extension}"
 
 
 def generate_docx():
@@ -35,7 +46,7 @@ def generate_docx():
         else:
             doc.add_paragraph(line)
 
-    output_file = output_dir() / "Membentengi_Akidah_Memurnikan_Tauhid.docx"
+    output_file = output_dir() / _output_name("docx")
 
     doc.save(output_file)
 

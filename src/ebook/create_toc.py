@@ -1,24 +1,19 @@
+import json
 from pathlib import Path
 from src.core.paths import data_dir
 
 
 def create_toc():
+    outline_file = data_dir() / "book_outline" / "book_outline.json"
+    outline = json.loads(outline_file.read_text(encoding="utf-8"))
 
-    toc = """
-# DAFTAR ISI
-
-Kata Pengantar
-
-Bab 1 - Pengakuan Tanpa Pengabdian
-
-Bab 2 - Mitos Perantara dan Syafaat
-
-Bab 3 - Spektrum Objek Sembahan
-
-Bab 4 - Potret Ironi Kesyirikan Modern
-
-Penutup
-"""
+    lines = ["# DAFTAR ISI", "", "Kata Pengantar", ""]
+    lines.extend(
+        f"Bab {chapter['number']} - {chapter['title']}"
+        for chapter in outline["chapters"]
+    )
+    lines.extend(["", "Penutup", ""])
+    toc = "\n".join(lines)
 
     output_dir = data_dir() / "book_assets"
 

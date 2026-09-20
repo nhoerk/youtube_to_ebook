@@ -1,0 +1,8 @@
+{
+  "book_title": "Membentengi Akidah, Memurnikan Tauhid",
+  "author": "",
+  "languages": ["id", "en"],
+  "chunk_size": 3000,
+  "gemini_model": "",
+  "generate_references": true
+}

@@ -1,7 +1,4 @@
-from src.ai_processing.gemini_client import (
-    client,
-    MODEL_NAME,
-)
+from src.ai_processing.gemini_utils import generate_with_fallback
 
 
 def summarize_chunk(text: str):
@@ -20,10 +17,8 @@ def summarize_chunk(text: str):
     """
     print("Mengirim ke Gemini...")
     
-    response = client.models.generate_content(
-    model=MODEL_NAME,
-    contents=prompt,
-    )
+    response = generate_with_fallback(prompt)
     print("Respons diterima...")
 
     return response.text
+import os
