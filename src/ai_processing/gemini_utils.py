@@ -4,6 +4,11 @@ import logging
 import os
 import random
 import time
+import hashlib
+import json
+from pathlib import Path
+from src.core.paths import data_dir
+from src.core.context import current_context
 
 from src.ai_processing.gemini_client import (
     client,
@@ -26,7 +31,17 @@ def _is_quota_error(error_text):
 
 
 def generate_with_fallback(prompt: str, retry: int = 2):
-    models = (os.getenv("GEMINI_MODEL", MODEL_NAME), *FALLBACK_MODELS)
+    context = current_context()
+    selected_model = (context.model if context and context.model else os.getenv("GEMINI_MODEL", MODEL_NAME))
+    models = (selected_model, *FALLBACK_MODELS)
+    cache_key = hashlib.sha256(
+        json.dumps({"prompt": prompt, "models": models}, sort_keys=True).encode()
+    ).hexdigest()
+    cache_file = data_dir() / "cache" / f"{cache_key}.json"
+    if os.getenv("YOUTUBE_TO_EBOOK_DISABLE_CACHE") != "1" and cache_file.exists():
+        cached = json.loads(cache_file.read_text(encoding="utf-8"))
+        logging.getLogger(__name__).info("Gemini cache hit: %s", cache_key)
+        return type("CachedResponse", (), {"text": cached["text"]})()
     last_error = None
 
     for model in models:
@@ -46,6 +61,12 @@ def generate_with_fallback(prompt: str, retry: int = 2):
                     "Gemini request succeeded using model %s",
                     model,
                 )
+                if os.getenv("YOUTUBE_TO_EBOOK_DISABLE_CACHE") != "1":
+                    cache_file.parent.mkdir(parents=True, exist_ok=True)
+                    cache_file.write_text(
+                        json.dumps({"text": response.text}, ensure_ascii=False),
+                        encoding="utf-8",
+                    )
                 return response
             except Exception as error:
                 last_error = error

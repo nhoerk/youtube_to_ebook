@@ -24,6 +24,7 @@ def test_generate_with_fallback_switches_after_quota_error(monkeypatch):
         ("fallback-model",),
     )
     monkeypatch.setenv("GEMINI_MODEL", "primary-model")
+    monkeypatch.setenv("YOUTUBE_TO_EBOOK_DISABLE_CACHE", "1")
 
     response = gemini_utils.generate_with_fallback("prompt", retry=1)
 

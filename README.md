@@ -66,4 +66,9 @@ akun/API key yang digunakan.
 - Outline disimpan sebagai `data/<video_id>/book_outline/book_outline.json`.
   Jumlah, judul, dan ringkasan chapter dibuat dari transcript video, lalu
   digunakan oleh generator chapter dan daftar isi.
+- Kandidat perbaikan bahasa disimpan di `data/<video_id>/editorial/review.json`,
+  sedangkan kandidat dalil disimpan di `data/<video_id>/references/candidates.json`.
+  Kandidat dalil selalu berstatus `needs_verification` dan bukan verifikasi final.
+- `--dry-run`, `--clean`, dan `--status-json` tersedia untuk pemeriksaan,
+  pembersihan, dan integrasi dengan UI/otomasi.
 - Untuk penggunaan yang lebih umum, perlu dibuat konfigurasi buku dan CLI argument agar judul, bab, dan output tidak tertanam di kode.

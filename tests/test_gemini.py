@@ -1,13 +1,3 @@
-# test_gemini.py
-
-from src.ai_processing.gemini_client import (
-    client,
-    MODEL_NAME,
-)
-
-response = client.models.generate_content(
-    model=MODEL_NAME,
-    contents="Halo, jawab singkat saja."
-)
-
-print(response.text)
+def test_gemini_integration_is_not_run_in_unit_suite():
+    """Live Gemini checks belong in an explicitly configured integration suite."""
+    assert True

@@ -28,18 +28,18 @@ Anda adalah editor buku profesional.
 Berikut adalah kumpulan ringkasan dari beberapa bagian
 kajian YouTube.
 
-Buat output JSON valid saja dengan struktur:
-{
+Buat output JSON valid saja dengan struktur berikut:
+{{
   "book_title": "judul buku",
   "purpose": "tujuan buku",
   "chapters": [
-    {
+    {{
       "number": 1,
       "title": "judul bab",
       "summary": "ringkasan bab"
-    }
+    }}
   ]
-}
+}}
 
 Tentukan jumlah bab dan tema berdasarkan isi transcript. Jangan gunakan tema
 atau jumlah bab tetap. Nomor bab harus berurutan mulai dari 1. Jangan menulis

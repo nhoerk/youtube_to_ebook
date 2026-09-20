@@ -1,8 +1,11 @@
 {
-  "book_title": "Membentengi Akidah, Memurnikan Tauhid",
+  "book_title": "",
   "author": "",
   "languages": ["id", "en"],
   "chunk_size": 3000,
   "gemini_model": "",
-  "generate_references": true
+  "generate_references": true,
+  "max_chapters": 12,
+  "max_retries": 3,
+  "allow_model_fallback": true
 }

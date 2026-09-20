@@ -6,12 +6,15 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class AppConfig:
-    book_title: str = "Membentengi Akidah, Memurnikan Tauhid"
+    book_title: str = ""
     author: str = ""
     languages: tuple[str, ...] = ("id", "en")
     chunk_size: int = 3000
     gemini_model: str = ""
     generate_references: bool = True
+    max_chapters: int = 12
+    max_retries: int = 3
+    allow_model_fallback: bool = True
 
     def fingerprint(self) -> str:
         payload = json.dumps(asdict(self), sort_keys=True, ensure_ascii=False)

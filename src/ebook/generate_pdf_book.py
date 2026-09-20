@@ -10,14 +10,16 @@ from reportlab.lib.styles import (
     getSampleStyleSheet,
 )
 from src.core.paths import output_dir
+from src.core.context import current_context
 import os
 import re
 
 
 def _output_name(extension):
-    title = os.getenv(
+    context = current_context()
+    title = context.book_title if context and context.book_title else os.getenv(
         "YOUTUBE_TO_EBOOK_BOOK_TITLE",
-        "Membentengi Akidah, Memurnikan Tauhid",
+        "Ebook Kajian YouTube",
     )
     slug = re.sub(r"[^A-Za-z0-9]+", "_", title).strip("_")
     return f"{slug}.{extension}"
@@ -34,7 +36,7 @@ def generate_pdf():
     output_file = output_dir() / _output_name("pdf")
 
     doc = SimpleDocTemplate(
-        output_file,
+        str(output_file),
         pagesize=A4,
     )
 

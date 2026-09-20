@@ -15,6 +15,8 @@ STAGES = (
     "chunked",
     "summarized",
     "outline",
+    "editorial_review",
+    "references",
     "preface",
     "toc",
     "chapters",

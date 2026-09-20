@@ -1,5 +1,7 @@
 from pathlib import Path
 from src.core.paths import data_dir, output_dir as get_output_dir
+from src.core.context import current_context
+from datetime import datetime, timezone
 import os
 
 
@@ -15,12 +17,28 @@ def build_manuscript():
     )
 
     manuscript = []
+    context = current_context()
 
-    title = os.getenv(
-        "YOUTUBE_TO_EBOOK_BOOK_TITLE",
-        "Membentengi Akidah, Memurnikan Tauhid",
+    title = (
+        context.book_title
+        if context and context.book_title
+        else os.getenv("YOUTUBE_TO_EBOOK_BOOK_TITLE", "Ebook Kajian YouTube")
     )
     manuscript.append(f"# {title}\n")
+    if context:
+        manuscript.append(
+            "\n".join(
+                [
+                    "## Sumber",
+                    f"- Judul ebook: {title}",
+                    f"- URL: {context.youtube_url}",
+                    f"- Video ID: {context.video_id}",
+                    f"- Tanggal pemrosesan: {datetime.now(timezone.utc).date().isoformat()}",
+                    f"- Model AI: {context.model or 'default'}",
+                    "",
+                ]
+            )
+        )
 
     for file in sorted(
         ebook_dir.glob("bab_*.md")
