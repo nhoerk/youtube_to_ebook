@@ -1,0 +1,15 @@
+{
+    "youtube_url": "https://www.youtube.com/watch?v=EyrdaHFpvOA",
+    "video_id": "EyrdaHFpvOA",
+    "downloaded": true,
+    "cleaned": true,
+    "chunked": true,
+    "summarized": true,
+    "outline": true,
+    "preface": true,
+    "toc": true,
+    "chapters": true,
+    "manuscript": true,
+    "docx": true,
+    "pdf": false
+}
